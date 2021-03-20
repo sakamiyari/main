@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バブルソート</title>
+</head>
+<body>
+    <script>
+        var suuji=[];
+        var hozon=0;//交換する時の仮の場所
+        const kaisu=100;
+        var casan=1;
+        for (var i=1;i<=kaisu;i++){
+            var syaffle=Math.floor(Math.random()*2000)
+           suuji[i]=syaffle;
+           console.log(i+"="+suuji[i]);
+        }
+        //バブルソート
+        for(var j=kaisu;j>=1;j--){
+        for (var i=1;i<=(kaisu-1);i++){
+            if(suuji[i]>suuji[i+1]){
+                hozon=suuji[i+1];
+                suuji[i+1]=suuji[i];
+                suuji[i]=hozon;
+            }else continue;
+        }
+    }
+    //結果
+    for (var i=1;i<=kaisu;i++){
+        console.log(i+"="+suuji[i]);
+    }
+    </script>
+</body>
+</html>
