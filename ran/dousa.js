@@ -1,7 +1,6 @@
 var yomikomi=document.getElementById("hyouji");
 var kensaku=document.getElementById("sarth");
 var botanname=document.getElementById("name");
-var ransuu=Math.floor(Math.random()*898);
 function osita(){
     botanname.value="再挑戦"
     var ransuu=Math.floor(Math.random()*898);
