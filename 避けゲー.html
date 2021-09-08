@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>すべての応用</title>
+    <script>
+        //操作方法
+        //マウス
+        /*自己ベスト*/
+        //windows10=>30168点
+        //そのほか=>9840点
+        //どれも推奨の速さで
+        /*避けげー var 1.3.1*/
+        //更新内容＝＞敵を左から右にした.
+        //そうすることによって、一番上に行きにくくした。
+        //更新内容＝＞一番上に来た時、終了させるようにした。
+        //更新内容＝＞スコアと残機をキャンバス上に表記した。
+        //更新内容＝＞クリア画面とゲームオーバ画面を作った。
+        //しかし、一番上にいくとゲームオーバー画面にならない。
+        //これは、バグなのか？
+        //著作権　髙田和弥
+        /*--------------------*/
+        var x=30;
+        var y=30;
+        /*敵の大きさ（難しくするなら数字を大きくすべき）*/
+        var enemy_width=30;//デフォ３０
+        var enemy_height=30;//デフォ３０
+        /*------------------------------------------------------*/
+        /*敵の数（難しくするなら数字を大きくすべき）*/
+        var kazu=15;//デフォ１５
+        /*--------------------------------------------------*/
+        var enemy_kazu_x=new Array(kazu);
+        var enemy_kazu_y=new Array(kazu);
+        var goukei=0;
+        /*自分の速さプラス相手の速さ*/
+        var speed=7;//デフォ7 windows10=>2 を推奨
+        /*---------------------------------*/
+        /*残り残機（変更しないで！）*/
+        var zanki=20;
+        /*-----------------------------*/
+        for(var i=1;i<kazu;i++){
+            enemy_kazu_x[i]=Math.random()*550;
+            enemy_kazu_y[i]=Math.random()*550;
+            while(enemy_kazu_x[i]>100){
+                enemy_kazu_x[i]=Math.random()*100;
+            }
+        }
+        window.onmousemove=function(e){
+            var canvas=document.getElementById("game");
+            var context=canvas.getContext('2d');
+            var player_x=e.clientX-118;
+            var player_y=e.clientY-23;
+            /*プレイヤーの大きさ（難しくするなら数字を大きくすべき）*/
+            var player_width=30;//デフォ３０
+            var player_height=30;//デフォ３０
+            /*---------------------------------------------------------------*/
+            //一番上に来た時、終了させる。
+            if(player_y<=0){
+            window.onmousemove=false;
+            zanki=0;
+            gameover();
+            }
+                if(player_x<0){
+                player_x=0;
+            }
+            if(player_x>=550){
+                player_x=550;
+            }
+            if(player_y<0){
+                player_y=0;
+            }
+            if(player_y>=550){
+                player_y=550;
+            }
+                goukei++;
+                redrow();
+                context.fillStyle='red';
+            context.fillRect(player_x,player_y,player_width,player_height);
+                for(var i=0;i<kazu;i++){
+                enemy_kazu_x[i]+=speed;
+                context.fillStyle='blue';
+                context.fillRect(enemy_kazu_x[i],enemy_kazu_y[i],enemy_width,enemy_height);
+                if(player_x<enemy_kazu_x[i]+enemy_width
+            &&enemy_kazu_x[i]<player_x+player_width
+            &&player_y<enemy_kazu_y[i]+enemy_height
+            &&enemy_kazu_y[i]<player_y+player_height){
+                //初見殺し防止
+                if(goukei>=100){
+                gameover();
+                }
+            }
+                }
+                for(var i=0;i<kazu;i++){
+                    if(enemy_kazu_x[i]>=550){
+                        enemy_kazu_x[i]=Math.random()*550;
+                        enemy_kazu_y[i]=Math.random()*550;
+                        while(enemy_kazu_x[i]>100){
+                            enemy_kazu_x[i]=Math.random()*100;
+                        }
+                    }
+                }
+                context.fillStyle='black';
+            context.font = "30px 'ＭＳ ゴシック'";
+            context.textAlign='left';
+            context.textBaseline='top';
+            context.fillText("スコア:"+goukei, 20, 20, 200);
+            context.fillText("残機:"+zanki, 40, 50, 200);
+            if(goukei>=5000){
+                    //クリア 一様
+                    window.onmousemove=false;
+                    context.fillStyle='black';
+            context.font = "100px 'ＭＳ ゴシック'";
+            context.textAlign='left';
+            context.textBaseline='top';
+            context.fillText("クリアしました！！！", 60, 260, 500);
+                }
+            }
+        function redrow(){
+            var canvas=document.getElementById("game");
+            var context=canvas.getContext('2d');
+            context.fillStyle='yellow';
+            context.fillRect(0,0,600,600);
+        }
+        setInterval(redrow(),100);
+        function gameover(){
+            var canvas=document.getElementById("game");
+            var context=canvas.getContext('2d');
+            zanki--;
+            if(zanki<=0){
+            window.onmousemove=false;
+            context.fillStyle='black';
+            context.font = "100px 'ＭＳ ゴシック'";
+            context.textAlign='left';
+            context.textBaseline='top';
+            context.fillText("ゲームオーバーです", 60, 260, 500);
+            }
+        }
+    </script>
+    <style>
+        canvas{margin-left: 6em;}
+    </style>
+</head>
+<body>
+    <canvas  id="game"width="600" height="600" style="background-color:yellow">
+    </canvas>
+    <script>
+document.oncontextmenu = function() {
+    return false;
+};
+    </script>
+    <h3 align="right">リセット用↓</h3>
+    <h3 align="right"><a href="避けゲー.html">ここをクリック</a></h3>
+    <p>
+        操作方法：マウス<br>
+        青い物体にぶつかるとアウト<br>
+        また、一番上にぶつかるとすぐにアウトになるから注意。<br>
+        動いたぶんだけスコアが加算されて行きます。<br>
+        下から上の動きしか出来ていません。<br>
+        動いた文だけ敵も動きます（てかそれしかできなかった）<br>
+        bgmは別枠のwindowで変更してください。<br>
+        全部流すとすごいことになるのでやめてね。<br>
+        どれも神曲です。<br>
+     </p>
+</body>
+</html>
